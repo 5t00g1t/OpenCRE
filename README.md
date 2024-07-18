@@ -33,24 +33,34 @@ Some of the data has been kindly contributed by the SKF and ASVS projects
 
 # Installing
 
-
 To install this application you need python3, yarn and virtualenv.
 Clone the repository:
-<pre>git clone https://github.com/OWASP/common-requirement-enumeration </pre>
+git clone https://github.com/OWASP/OpenCRE.git
 
-Copy sqlite database to required location
-<pre>cp cres/db.sqlite standards_cache.sqlite</pre>
+Change directory to OpenCRE
+cd OpenCRE
 
-Install dependencies
-<pre> make install </pre>
+Install dependencies:
+make install
 
+Apply database migrations:
+make migrate-upgrade
+
+Activate the virtual environment
+source venv/bin/activate
+
+Synchronise with upstream data:
+python cre.py --upstream_sync
+
+Start the development server:
+make dev-flask
 
 # Running
 
 ### Locally
 
 #### Docker
-The easiest weay to run OpenCRE locally is by running the published docker container.
+The easiest way to run OpenCRE locally is by running the published docker container.
 You can do so by running:
 `docker run -p 5000:5000  ghcr.io/owasp/opencre/opencre:latest`
 After the container has finished downloading the remote information you can access it in [localhost](http://127.0.0.1:5000)
