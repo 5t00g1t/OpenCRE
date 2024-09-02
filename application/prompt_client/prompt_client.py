@@ -156,7 +156,10 @@ class in_memory_embeddings:
         logger.info(f"generating {len(missing_embeddings)} embeddings")
         for id in missing_embeddings:
             cre = database.get_cre_by_db_id(id)
-            node = database.get_nodes(db_id=id)[0]
+            nodes = database.get_nodes(db_id=id)
+            node = None
+            if len(nodes)>0:
+                node = nodes[0]
             content = ""
             if node:
                 if is_valid_url(node.hyperlink):
@@ -206,10 +209,10 @@ class PromptHandler:
         ):
             logger.info("using Google Vertex AI engine")
             self.ai_client = vertex_prompt_client.VertexPromptClient()
-        elif os.getenv("OPENAI_API_KEY"):
+        elif os.getenv("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"):
             logger.info("using Open AI engine")
             self.ai_client = openai_prompt_client.OpenAIPromptClient(
-                os.getenv("OPENAI_API_KEY")
+                os.getenv("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")
             )
         else:
             self.ai_client = spacy_prompt_client.SpacyPromptClient()
