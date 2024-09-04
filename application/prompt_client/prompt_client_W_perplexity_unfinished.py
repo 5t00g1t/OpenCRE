@@ -210,22 +210,21 @@ class PromptHandler:
         ):
             logger.info("using Google Vertex AI engine")
             self.ai_client = vertex_prompt_client.VertexPromptClient()
-        # elif os.getenv("OPENAI_API_KEY"):
-        #     logger.info("using Open AI engine")
-        #     self.ai_client = openai_prompt_client.OpenAIPromptClient(
-        #         os.getenv("OPENAI_API_KEY")
-        #     )
-        # elif os.getenv("PERPLEXITY_OPENAI_API_KEY"):
-        #     logger.info("using Perplexity AI engine")
-        #     self.ai_client = perplexity_prompt_client.PerplexityAIPromptClient(
-        #         os.getenv("PERPLEXITY_OPENAI_API_KEY")
-        #     )
+        elif os.getenv("OPENAI_API_KEY"):
+            logger.info("using Open AI engine")
+            self.ai_client = openai_prompt_client.OpenAIPromptClient(
+                os.getenv("OPENAI_API_KEY")
+            )
+        elif os.getenv("PERPLEXITY_OPENAI_API_KEY"):
+            logger.info("using Perplexity AI engine")
+            self.ai_client = perplexity_prompt_client_unfinished.PerplexityAIPromptClient(
+                os.getenv("PERPLEXITY_OPENAI_API_KEY")
+            )
         else:
-            # self.ai_client = spacy_prompt_client.SpacyPromptClient()
+            self.ai_client = spacy_prompt_client.SpacyPromptClient()
             logger.info(
-                # "cannot instantiate ai client, neither OPENAI_API_KEY, PERPLEXITY_OPENAI_KEY, nor SERVICE_ACCOUNT_CREDENTIALS are set, using spacy "
                 "cannot instantiate ai client, neither OPENAI_API_KEY, PERPLEXITY_OPENAI_KEY, nor SERVICE_ACCOUNT_CREDENTIALS are set, using spacy "
-                )
+            )
         self.database = database
         self.embeddings_instance = in_memory_embeddings.instance().with_ai_client(
             ai_client=self.ai_client
