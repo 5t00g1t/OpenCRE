@@ -209,10 +209,10 @@ class PromptHandler:
         ):
             logger.info("using Google Vertex AI engine")
             self.ai_client = vertex_prompt_client.VertexPromptClient()
-        elif os.getenv("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"):
+        elif os.getenv("OPENAI_API_KEY"):
             logger.info("using Open AI engine")
             self.ai_client = openai_prompt_client.OpenAIPromptClient(
-                os.getenv("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")
+                os.getenv("OPENAI_API_KEY")
             )
         else:
             self.ai_client = spacy_prompt_client.SpacyPromptClient()
